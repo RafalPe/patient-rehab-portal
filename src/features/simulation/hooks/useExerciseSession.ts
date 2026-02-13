@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { updateExerciseStatusAction } from "@/features/exercises/actions/exerciseActions";
 import { useExerciseTimer } from "@/features/simulation/hooks/useExerciseTimer";
 
+const SIMULATION_DURATION_SECONDS = 15;
+
 export const useExerciseSession = (exerciseId: string) => {
   const router = useRouter();
   const [isFinishing, setIsFinishing] = useState(false);
@@ -15,7 +17,10 @@ export const useExerciseSession = (exerciseId: string) => {
     router.push("/dashboard");
   };
 
-  const { timeLeft, isActive, start } = useExerciseTimer(60, handleComplete);
+  const { timeLeft, isActive, start } = useExerciseTimer(
+    SIMULATION_DURATION_SECONDS,
+    handleComplete,
+  );
 
   const handleStart = async () => {
     start();

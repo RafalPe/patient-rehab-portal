@@ -12,6 +12,17 @@ export async function updateExerciseStatusAction(
   const user = await getCurrentUser();
   if (!user) throw new Error("Unauthorized");
 
+  const exercises = await dbActions.getExercisesForUser(user.email);
+  const currentExercise = exercises.find((e) => e.id === exerciseId);
+
+  if (currentExercise?.status === "DONE") {
+    return false;
+  }
+
+  if (status === "DONE") {
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+  }
+
   const now = new Date();
   const timestamp = toISODateString(now);
 

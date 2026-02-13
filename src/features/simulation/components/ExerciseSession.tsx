@@ -10,7 +10,9 @@ export const ExerciseSession = ({ exercise }: { exercise: Exercise }) => {
 
   return (
     <div className="mx-auto max-w-md rounded-2xl bg-white p-8 text-center shadow-xl">
-      <h2 className="mb-2 text-2xl font-bold">{exercise.deviceName}</h2>
+      <h2 className="mb-2 text-2xl font-bold text-slate-900">
+        {exercise.deviceName}
+      </h2>
       <p className="mb-8 text-slate-500">{exercise.params}</p>
 
       <div className="mb-8 font-mono text-6xl font-bold text-blue-600">
@@ -34,7 +36,12 @@ export const ExerciseSession = ({ exercise }: { exercise: Exercise }) => {
       )}
 
       {isFinishing && (
-        <div className="font-medium text-green-600">Zapisywanie wyników...</div>
+        <div className="flex flex-col items-center justify-center gap-2 text-green-600">
+          <div className="h-6 w-6 animate-spin rounded-full border-2 border-green-600 border-t-transparent"></div>
+          <span className="font-medium">
+            Przetwarzanie danych z urządzenia...
+          </span>
+        </div>
       )}
     </div>
   );

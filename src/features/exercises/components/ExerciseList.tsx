@@ -1,5 +1,6 @@
 import { Exercise } from "@/types/models";
 import { STATUS_LABELS } from "../utils/statusLabels";
+import Link from "next/link";
 
 interface ExerciseListProps {
   exercises: Exercise[];
@@ -41,9 +42,14 @@ export const ExerciseList = ({ exercises }: ExerciseListProps) => {
               {STATUS_LABELS[ex.status]}
             </span>
 
-            <button className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700">
-              Rozpocznij
-            </button>
+            {ex.status !== "DONE" && (
+              <Link
+                href={`/dashboard/exercise/${ex.id}`}
+                className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700"
+              >
+                {ex.status === "IN_PROGRESS" ? "Kontynuuj" : "Rozpocznij"}
+              </Link>
+            )}
           </div>
         </div>
       ))}
