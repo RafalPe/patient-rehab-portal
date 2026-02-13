@@ -1,4 +1,5 @@
 import { Exercise } from "@/types/models";
+import { STATUS_LABELS } from "../utils/statusLabels";
 
 interface ExerciseListProps {
   exercises: Exercise[];
@@ -37,7 +38,7 @@ export const ExerciseList = ({ exercises }: ExerciseListProps) => {
                     : "bg-slate-100 text-slate-700"
               }`}
             >
-              {ex.status}
+              {STATUS_LABELS[ex.status]}
             </span>
 
             <button className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700">
