@@ -22,7 +22,7 @@ export const LoginForm = () => {
 
       <form action={formAction} className="space-y-4">
         {state.errors?.form && (
-          <div className="rounded-md bg-red-50 p-3 text-sm text-red-600 border border-red-200">
+          <div className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-600">
             {state.errors.form}
           </div>
         )}
@@ -39,7 +39,7 @@ export const LoginForm = () => {
             name="email"
             type="email"
             required
-            className="mt-1 block w-full rounded-md border border-slate-300 px-3 py-2 shadow-sm focus:border-brand-primary focus:outline-none focus:ring-1 focus:ring-brand-primary"
+            className="focus:border-brand-primary focus:ring-brand-primary mt-1 block w-full rounded-md border border-slate-300 px-3 py-2 text-slate-800 shadow-sm placeholder:text-slate-500 focus:ring-1 focus:outline-none"
             placeholder="pacjent@test.pl"
           />
           {state.errors?.email && (
@@ -59,7 +59,7 @@ export const LoginForm = () => {
             name="password"
             type="password"
             required
-            className="mt-1 block w-full rounded-md border border-slate-300 px-3 py-2 shadow-sm focus:border-brand-primary focus:outline-none focus:ring-1 focus:ring-brand-primary"
+            className="focus:border-brand-primary focus:ring-brand-primary mt-1 block w-full rounded-md border border-slate-300 px-3 py-2 text-slate-800 shadow-sm focus:ring-1 focus:outline-none"
           />
           {state.errors?.password && (
             <p className="mt-1 text-xs text-red-500">
@@ -71,7 +71,7 @@ export const LoginForm = () => {
         <button
           type="submit"
           disabled={isPending}
-          className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="flex w-full justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
         >
           {isPending ? "Logowanie..." : "Zaloguj się"}
         </button>
