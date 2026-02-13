@@ -1,6 +1,8 @@
 {
   // Tailwind CSS v4 uses custom at-rules like @theme and @import "tailwindcss"
   // which are not recognized by VS Code's built-in CSS linter.
-  // This setting suppresses false-positive "Unknown at rule" warnings.
-  "css.lint.unknownAtRules": "ignore"
+  "css.lint.unknownAtRules": "ignore",
+
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true
 }
