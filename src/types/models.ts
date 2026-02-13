@@ -1,5 +1,8 @@
 export type ExerciseStatus = "TODO" | "IN_PROGRESS" | "DONE";
 export type ISODateString = string & { readonly __brand: "ISODateString" };
+export const toISODateString = (date: Date): ISODateString => {
+  return date.toISOString() as ISODateString;
+};
 
 export interface Exercise {
   id: string;
