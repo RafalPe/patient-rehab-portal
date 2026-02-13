@@ -6,7 +6,10 @@ export default function LoginPage() {
       <div className="w-full max-w-md">
         <LoginForm />
         <p className="mt-8 text-center text-xs text-slate-400">
-          Demo danych: <span className="font-medium">pacjent@test.pl</span> /{" "}
+          Demo: <span className="font-medium">pacjent@test.pl</span> /{" "}
+          <span className="font-medium">password123</span>
+          <br />
+          lub <span className="font-medium">anna.nowak@test.pl</span> /{" "}
           <span className="font-medium">password123</span>
         </p>
       </div>
