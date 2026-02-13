@@ -39,7 +39,7 @@ export const LoginForm = () => {
             name="email"
             type="email"
             required
-            className="focus:border-brand-primary focus:ring-brand-primary mt-1 block w-full rounded-md border border-slate-300 px-3 py-2 text-slate-800 shadow-sm placeholder:text-slate-500 focus:ring-1 focus:outline-none"
+            className="focus:border-brand-primary focus:ring-brand-primary mt-1 block w-full rounded-md border border-slate-300 px-3 py-2 text-slate-800 shadow-sm placeholder:text-slate-400 focus:ring-1 focus:outline-none"
             placeholder="pacjent@test.pl"
           />
           {state.errors?.email && (
