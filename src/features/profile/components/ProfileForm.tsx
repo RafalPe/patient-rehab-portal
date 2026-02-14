@@ -103,7 +103,7 @@ export const ProfileForm = ({ user }: { user: User }) => {
         <button
           type="submit"
           disabled={isPending}
-          className="rounded-lg bg-blue-600 px-6 py-2 font-medium text-white transition-colors hover:bg-blue-700 disabled:opacity-50"
+          className="cursor-pointer rounded-lg bg-blue-600 px-6 py-2 font-medium text-white transition-colors hover:bg-blue-700 disabled:opacity-50"
         >
           {isPending ? "Zapisywanie..." : "Zapisz zmiany"}
         </button>

@@ -35,12 +35,24 @@ export const ExerciseSession = ({ exercise }: { exercise: Exercise }) => {
         style={{ width: SIZE, height: SIZE }}
       >
         <svg width={SIZE} height={SIZE} className="-rotate-90">
+          <defs>
+            <linearGradient
+              id="progressGradient"
+              x1="0%"
+              y1="0%"
+              x2="100%"
+              y2="0%"
+            >
+              <stop offset="0%" stopColor="#3b82f6" />
+              <stop offset="100%" stopColor="#14b8a6" />
+            </linearGradient>
+          </defs>
           <circle
             cx={SIZE / 2}
             cy={SIZE / 2}
             r={RADIUS}
             fill="none"
-            stroke="#e2e8f0"
+            stroke="#f1f5f9"
             strokeWidth={STROKE_WIDTH}
           />
           <circle
@@ -48,7 +60,7 @@ export const ExerciseSession = ({ exercise }: { exercise: Exercise }) => {
             cy={SIZE / 2}
             r={RADIUS}
             fill="none"
-            stroke="#2563eb"
+            stroke="url(#progressGradient)"
             strokeWidth={STROKE_WIDTH}
             strokeLinecap="round"
             strokeDasharray={CIRCUMFERENCE}
@@ -60,7 +72,7 @@ export const ExerciseSession = ({ exercise }: { exercise: Exercise }) => {
             }}
           />
         </svg>
-        <div className="absolute inset-0 flex items-center justify-center font-mono text-5xl font-bold text-blue-600">
+        <div className="absolute inset-0 flex items-center justify-center font-mono text-5xl font-bold text-slate-800">
           {Math.floor(timeLeft / 60)}:
           {(timeLeft % 60).toString().padStart(2, "0")}
         </div>
@@ -69,7 +81,7 @@ export const ExerciseSession = ({ exercise }: { exercise: Exercise }) => {
       {!isActive && timeLeft > 0 && (
         <button
           onClick={handleStart}
-          className="w-full rounded-xl bg-blue-600 py-4 font-bold text-white transition-transform hover:bg-blue-700 active:scale-95"
+          className="w-full cursor-pointer rounded-xl bg-linear-to-r from-blue-500 to-blue-600 py-4 font-bold text-white shadow-md transition-all hover:from-blue-600 hover:to-blue-700 hover:shadow-lg active:scale-95"
         >
           ROZPOCZNIJ SESJĘ
         </button>
