@@ -1,4 +1,4 @@
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth-utils";
 import { dbActions } from "@/lib/db";
 import { ExerciseSession } from "@/features/simulation/components/ExerciseSession";
@@ -12,9 +12,7 @@ export default async function ExercisePage({
   const { id } = await params;
   const user = await getCurrentUser();
 
-  if (!user) redirect("/login");
-
-  const exercises = await dbActions.getExercisesForUser(user.email);
+  const exercises = await dbActions.getExercisesForUser(user!.email);
   const exercise = exercises.find((e) => e.id === id);
 
   if (!exercise) {
@@ -22,17 +20,22 @@ export default async function ExercisePage({
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 px-4 py-12">
-      <div className="mx-auto max-w-2xl">
-        <Link
-          href="/dashboard"
-          className="mb-8 inline-block text-sm text-slate-500 transition-colors hover:text-slate-800"
-        >
-          ← Wróć do listy
-        </Link>
+    <>
+      <header className="mb-8">
+        <div className="flex items-center gap-4">
+          <Link
+            href="/dashboard"
+            className="text-sm text-slate-400 transition-colors hover:text-slate-700"
+          >
+            ← Wróć
+          </Link>
+          <h2 className="text-2xl font-bold text-slate-900">
+            Symulacja ćwiczenia
+          </h2>
+        </div>
+      </header>
 
-        <ExerciseSession exercise={exercise} />
-      </div>
-    </div>
+      <ExerciseSession exercise={exercise} />
+    </>
   );
 }
