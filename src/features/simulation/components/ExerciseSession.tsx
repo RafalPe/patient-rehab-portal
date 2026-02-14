@@ -1,12 +1,22 @@
 "use client";
 
 import { Exercise } from "@/types/models";
-import { useExerciseSession } from "@/features/simulation/hooks/useExerciseSession";
+import {
+  useExerciseSession,
+  SIMULATION_DURATION_SECONDS,
+} from "@/features/simulation/hooks/useExerciseSession";
+
+const RADIUS = 80;
+const STROKE_WIDTH = 8;
+const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
+const SIZE = (RADIUS + STROKE_WIDTH) * 2;
 
 export const ExerciseSession = ({ exercise }: { exercise: Exercise }) => {
   const { timeLeft, isActive, isFinishing, handleStart } = useExerciseSession(
     exercise.id,
   );
+
+  const ringDashOffset = isActive || timeLeft === 0 ? CIRCUMFERENCE : 0;
 
   return (
     <div className="mx-auto max-w-md rounded-2xl bg-white p-8 text-center shadow-xl">
@@ -15,9 +25,40 @@ export const ExerciseSession = ({ exercise }: { exercise: Exercise }) => {
       </h2>
       <p className="mb-8 text-slate-500">{exercise.params}</p>
 
-      <div className="mb-8 font-mono text-6xl font-bold text-blue-600">
-        {Math.floor(timeLeft / 60)}:
-        {(timeLeft % 60).toString().padStart(2, "0")}
+      <div
+        className="relative mx-auto mb-8"
+        style={{ width: SIZE, height: SIZE }}
+      >
+        <svg width={SIZE} height={SIZE} className="-rotate-90">
+          <circle
+            cx={SIZE / 2}
+            cy={SIZE / 2}
+            r={RADIUS}
+            fill="none"
+            stroke="#e2e8f0"
+            strokeWidth={STROKE_WIDTH}
+          />
+          <circle
+            cx={SIZE / 2}
+            cy={SIZE / 2}
+            r={RADIUS}
+            fill="none"
+            stroke="#2563eb"
+            strokeWidth={STROKE_WIDTH}
+            strokeLinecap="round"
+            strokeDasharray={CIRCUMFERENCE}
+            strokeDashoffset={ringDashOffset}
+            style={{
+              transition: isActive
+                ? `stroke-dashoffset ${SIMULATION_DURATION_SECONDS}s linear`
+                : "none",
+            }}
+          />
+        </svg>
+        <div className="absolute inset-0 flex items-center justify-center font-mono text-5xl font-bold text-blue-600">
+          {Math.floor(timeLeft / 60)}:
+          {(timeLeft % 60).toString().padStart(2, "0")}
+        </div>
       </div>
 
       {!isActive && timeLeft > 0 && (

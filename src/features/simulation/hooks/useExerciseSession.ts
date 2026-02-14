@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { updateExerciseStatusAction } from "@/features/exercises/actions/exerciseActions";
 import { useExerciseTimer } from "@/features/simulation/hooks/useExerciseTimer";
 
-const SIMULATION_DURATION_SECONDS = 15;
+export const SIMULATION_DURATION_SECONDS = 15;
 
 export const useExerciseSession = (exerciseId: string) => {
   const router = useRouter();
