@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth-utils";
 import { dbActions } from "@/lib/db";
 import { ExerciseList } from "@/features/exercises/components/ExerciseList";
+import { logoutAction } from "@/features/auth/actions/logoutAction";
 import Link from "next/link";
 
 export default async function DashboardPage() {
@@ -50,6 +51,14 @@ export default async function DashboardPage() {
                 />
               </svg>
             </Link>
+            <form action={logoutAction}>
+              <button
+                type="submit"
+                className="ml-1 cursor-pointer rounded-md border border-slate-200 px-3 py-1 text-xs font-medium text-slate-500 transition-colors hover:border-slate-300 hover:text-slate-700"
+              >
+                Wyloguj
+              </button>
+            </form>
           </div>
         </div>
       </nav>
