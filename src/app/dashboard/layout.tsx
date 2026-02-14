@@ -22,6 +22,7 @@ export default async function DashboardLayout({
         <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-4">
           <Link
             href="/dashboard"
+            aria-label="Portal Pacjenta"
             className="flex items-center gap-2 text-xl font-bold text-slate-900 transition-colors hover:text-blue-600"
           >
             <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-linear-to-br from-blue-500 to-teal-400 text-sm font-bold text-white">

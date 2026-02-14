@@ -21,6 +21,13 @@ const initialData: InMemoryDb = {
       email: "anna.nowak@test.pl",
       password: "password123",
     },
+    {
+      id: "3",
+      firstName: "E2E",
+      lastName: "Tester",
+      email: "e2e@test.pl",
+      password: "password123",
+    },
   ],
   exercises: {
     "pacjent@test.pl": [
@@ -48,6 +55,14 @@ const initialData: InMemoryDb = {
         id: "ex4",
         deviceName: "Steper",
         params: "Czas: 10 min, Poziom: 2",
+        status: "TODO",
+      },
+    ],
+    "e2e@test.pl": [
+      {
+        id: "ex_e2e",
+        deviceName: "Testowa Bieżnia",
+        params: "Czas: 5 min, Prędkość: 2km/h",
         status: "TODO",
       },
     ],
