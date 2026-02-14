@@ -19,12 +19,12 @@ export async function updateExerciseStatusAction(
     return false;
   }
 
+  const now = new Date();
+  const timestamp = toISODateString(now);
+
   if (status === "DONE") {
     await new Promise((resolve) => setTimeout(resolve, 3000));
   }
-
-  const now = new Date();
-  const timestamp = toISODateString(now);
 
   const success = await dbActions.updateExerciseStatus(
     user.email,

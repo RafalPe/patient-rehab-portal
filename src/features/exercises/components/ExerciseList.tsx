@@ -27,6 +27,21 @@ export const ExerciseList = ({ exercises }: ExerciseListProps) => {
               {ex.deviceName}
             </h3>
             <p className="text-sm text-slate-600">{ex.params}</p>
+            {ex.status === "DONE" && (ex.startedAt || ex.completedAt) && (
+              <div className="mt-2 space-y-0.5 text-xs text-slate-400">
+                {ex.startedAt && (
+                  <p>
+                    Rozpoczęto: {new Date(ex.startedAt).toLocaleString("pl-PL")}
+                  </p>
+                )}
+                {ex.completedAt && (
+                  <p>
+                    Zakończono:{" "}
+                    {new Date(ex.completedAt).toLocaleString("pl-PL")}
+                  </p>
+                )}
+              </div>
+            )}
           </div>
 
           <div className="flex items-center gap-4">
