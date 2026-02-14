@@ -11,7 +11,9 @@ export type ProfileActionState = {
   errors?: {
     firstName?: string[];
     lastName?: string[];
+    currentPassword?: string[];
     password?: string[];
+    confirmPassword?: string[];
   };
 };
 
@@ -25,7 +27,9 @@ export async function updateProfileAction(
   const rawData = {
     firstName: formData.get("firstName"),
     lastName: formData.get("lastName"),
+    currentPassword: formData.get("currentPassword"),
     password: formData.get("password"),
+    confirmPassword: formData.get("confirmPassword"),
   };
 
   const validated = profileSchema.safeParse(rawData);
@@ -35,6 +39,17 @@ export async function updateProfileAction(
       success: false,
       errors: validated.error.flatten().fieldErrors,
     };
+  }
+
+  if (validated.data.password && validated.data.password.length > 0) {
+    if (user.password !== validated.data.currentPassword) {
+      return {
+        success: false,
+        errors: {
+          currentPassword: ["Aktualne hasło jest nieprawidłowe"],
+        },
+      };
+    }
   }
 
   const updateData: { firstName: string; lastName: string; password?: string } =

@@ -84,6 +84,23 @@ export const ProfileForm = ({ user }: { user: User }) => {
 
       <div>
         <label className="mb-1 block text-sm font-medium text-slate-700">
+          Aktualne hasło
+        </label>
+        <input
+          name="currentPassword"
+          type="password"
+          placeholder="Wymagane przy zmianie hasła"
+          className="w-full rounded-md border border-slate-300 px-3 py-2 text-slate-800 shadow-sm placeholder:text-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+        />
+        {state.errors?.currentPassword && (
+          <p className="mt-1 text-xs text-red-500">
+            {state.errors.currentPassword[0]}
+          </p>
+        )}
+      </div>
+
+      <div>
+        <label className="mb-1 block text-sm font-medium text-slate-700">
           Nowe hasło
         </label>
         <input
@@ -95,6 +112,23 @@ export const ProfileForm = ({ user }: { user: User }) => {
         {state.errors?.password && (
           <p className="mt-1 text-xs text-red-500">
             {state.errors.password[0]}
+          </p>
+        )}
+      </div>
+
+      <div>
+        <label className="mb-1 block text-sm font-medium text-slate-700">
+          Potwierdź nowe hasło
+        </label>
+        <input
+          name="confirmPassword"
+          type="password"
+          placeholder="Powtórz nowe hasło"
+          className="w-full rounded-md border border-slate-300 px-3 py-2 text-slate-800 shadow-sm placeholder:text-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+        />
+        {state.errors?.confirmPassword && (
+          <p className="mt-1 text-xs text-red-500">
+            {state.errors.confirmPassword[0]}
           </p>
         )}
       </div>
