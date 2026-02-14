@@ -12,14 +12,19 @@ const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 const SIZE = (RADIUS + STROKE_WIDTH) * 2;
 
 export const ExerciseSession = ({ exercise }: { exercise: Exercise }) => {
-  const { timeLeft, isActive, isFinishing, handleStart } = useExerciseSession(
-    exercise.id,
-  );
+  const { timeLeft, isActive, isFinishing, error, handleStart } =
+    useExerciseSession(exercise.id);
 
   const ringDashOffset = isActive || timeLeft === 0 ? CIRCUMFERENCE : 0;
 
   return (
     <div className="mx-auto max-w-md rounded-2xl bg-white p-8 text-center shadow-xl">
+      {error && (
+        <div className="mb-6 rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-600">
+          {error}
+        </div>
+      )}
+
       <h2 className="mb-2 text-2xl font-bold text-slate-900">
         {exercise.deviceName}
       </h2>
