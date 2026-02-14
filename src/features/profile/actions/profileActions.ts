@@ -37,7 +37,7 @@ export async function updateProfileAction(
   if (!validated.success) {
     return {
       success: false,
-      errors: validated.error.flatten().fieldErrors,
+      errors: validated.error.flatten((issue) => issue.message).fieldErrors,
     };
   }
 
