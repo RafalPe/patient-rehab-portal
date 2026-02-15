@@ -82,7 +82,12 @@ export const ExerciseSession = ({ exercise }: { exercise: Exercise }) => {
         <button
           aria-label="Rozpocznij sesję"
           onClick={handleStart}
-          className="w-full cursor-pointer rounded-xl bg-linear-to-r from-blue-500 to-blue-600 py-4 font-bold text-white shadow-md transition-all hover:from-blue-600 hover:to-blue-700 hover:shadow-lg active:scale-95"
+          disabled={!!error}
+          className={`w-full rounded-xl py-4 font-bold text-white shadow-md transition-all ${
+            error
+              ? "cursor-not-allowed bg-slate-300 shadow-none"
+              : "cursor-pointer bg-linear-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 hover:shadow-lg active:scale-95"
+          }`}
         >
           ROZPOCZNIJ SESJĘ
         </button>

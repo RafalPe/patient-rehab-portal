@@ -32,10 +32,11 @@ export const useExerciseSession = (exerciseId: string) => {
 
   const handleStart = async () => {
     setError(null);
-    start();
     const result = await updateExerciseStatusAction(exerciseId, "IN_PROGRESS");
 
-    if (!result.success) {
+    if (result.success) {
+      start();
+    } else {
       setError(result.error ?? "Nie udało się rozpocząć ćwiczenia.");
     }
   };
