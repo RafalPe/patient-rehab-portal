@@ -3,6 +3,9 @@ export type AuthActionState = {
   errors?: {
     email?: string[];
     password?: string[];
+    firstName?: string[];
+    lastName?: string[];
+    confirmPassword?: string[];
     form?: string;
   };
 };

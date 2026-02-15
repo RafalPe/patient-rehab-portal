@@ -30,14 +30,12 @@ test.describe("Login Flow", () => {
   });
 
   test("should allow user to logout", async ({ page }) => {
-    // Login first
     await page.goto("/login");
     await page.fill('input[name="email"]', "pacjent@test.pl");
     await page.fill('input[name="password"]', "password123");
     await page.click('button[type="submit"]');
     await expect(page).toHaveURL("/dashboard");
 
-    // Logout
     await page.click('button:has-text("Wyloguj")');
     await expect(page).toHaveURL("/login");
   });

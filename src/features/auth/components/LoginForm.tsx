@@ -3,6 +3,7 @@
 import { useActionState } from "react";
 import { loginAction } from "../actions/loginAction";
 import { AuthActionState } from "../schemas/types";
+import Link from "next/link";
 
 const initialState: AuthActionState = {
   success: false,
@@ -76,10 +77,20 @@ export const LoginForm = () => {
         <button
           type="submit"
           disabled={isPending}
-          className="w-full rounded-lg bg-linear-to-r from-blue-500 to-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-md transition-all hover:from-blue-600 hover:to-blue-700 hover:shadow-lg focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+          className="w-full cursor-pointer rounded-lg bg-linear-to-r from-blue-500 to-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-md transition-all hover:from-blue-600 hover:to-blue-700 hover:shadow-lg focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
         >
           {isPending ? "Logowanie..." : "Zaloguj się"}
         </button>
+
+        <p className="text-center text-sm text-slate-600">
+          Nie masz konta?{" "}
+          <Link
+            href="/register"
+            className="font-medium text-blue-600 hover:text-blue-500"
+          >
+            Zarejestruj się
+          </Link>
+        </p>
       </form>
     </div>
   );
