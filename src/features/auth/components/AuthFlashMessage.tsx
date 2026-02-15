@@ -1,87 +1,65 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { Toast, ToastType } from "@/features/ui/Toast";
 
 export const AuthFlashMessage = () => {
   const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
 
-  const [message] = useState<{
-    type: "success" | "error" | "info";
+  const [messageData, setMessageData] = useState<{
+    type: ToastType;
     text: string;
-  } | null>(() => {
-    if (typeof window === "undefined") return null;
+  } | null>(null);
+
+  const [prevParams, setPrevParams] = useState("");
+
+  const currentParamsStr = searchParams.toString();
+
+  if (currentParamsStr !== prevParams) {
+    setPrevParams(currentParamsStr);
 
     const expired = searchParams.get("expired");
     const registered = searchParams.get("registered");
     const loggedOut = searchParams.get("loggedOut");
 
-    if (expired) {
-      return {
-        type: "error",
-        text: "Sesja wygasła. Zaloguj się ponownie.",
-      };
-    } else if (registered) {
-      return {
-        type: "success",
-        text: "Utworzono konto, można się zalogować.",
-      };
-    } else if (loggedOut) {
-      return {
-        type: "info",
-        text: "Pomyślnie wylogowano.",
-      };
-    }
-    return null;
-  });
+    if (expired || registered || loggedOut) {
+      const type: ToastType = expired
+        ? "error"
+        : registered
+          ? "success"
+          : "info";
+      const text = expired
+        ? "Sesja wygasła. Zaloguj się ponownie."
+        : registered
+          ? "Utworzono konto, można się zalogować."
+          : "Pomyślnie wylogowano.";
 
-  const [visible, setVisible] = useState(false);
+      setMessageData({ type, text });
+    }
+  }
 
   useEffect(() => {
-    if (message) {
-      const timer = setTimeout(() => setVisible(true), 10);
+    const hasFlashParam =
+      searchParams.get("expired") ||
+      searchParams.get("registered") ||
+      searchParams.get("loggedOut");
 
-      const newUrl = window.location.pathname;
-      window.history.replaceState({}, "", newUrl);
-
-      const hideTimer = setTimeout(() => {
-        setVisible(false);
-      }, 3000);
-
-      return () => {
-        clearTimeout(timer);
-        clearTimeout(hideTimer);
-      };
+    if (hasFlashParam) {
+      router.replace(pathname);
     }
-  }, [message]);
+  }, [searchParams, router, pathname]);
 
-  if (!message) return null;
-
-  const styles = {
-    error: "border-amber-200 bg-amber-50 text-amber-700",
-    success: "border-green-200 bg-green-50 text-green-700",
-    info: "border-blue-200 bg-blue-50 text-blue-700",
-  };
-
-  const progressStyles = {
-    error: "bg-amber-300/50",
-    success: "bg-green-300/50",
-    info: "bg-blue-300/50",
-  };
+  if (!messageData) return null;
 
   return (
-    <div
-      className={`relative mb-4 overflow-hidden rounded-lg border p-4 text-center text-sm transition-all duration-500 ease-in-out ${
-        styles[message.type]
-      } ${visible ? "translate-y-0 opacity-100" : "-translate-y-2 opacity-0"}`}
-    >
-      <div className="relative z-10">{message.text}</div>
-      <div
-        className={`absolute bottom-0 left-0 h-1 transition-all duration-3000 ease-linear ${
-          progressStyles[message.type]
-        }`}
-        style={{ width: visible ? "0%" : "100%" }}
-      />
-    </div>
+    <Toast
+      message={messageData.text}
+      type={messageData.type}
+      onClose={() => setMessageData(null)}
+      position="fixed"
+    />
   );
 };
