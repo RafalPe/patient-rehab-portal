@@ -1,34 +1,14 @@
 import { LoginForm } from "@/features/auth/components/LoginForm";
+import { AuthFlashMessage } from "@/features/auth/components/AuthFlashMessage";
+import { Suspense } from "react";
 
-export default async function LoginPage({
-  searchParams,
-}: {
-  searchParams: Promise<{
-    expired?: string;
-    registered?: string;
-    loggedOut?: string;
-  }>;
-}) {
-  const { expired, registered, loggedOut } = await searchParams;
-
+export default function LoginPage() {
   return (
     <main className="flex min-h-screen items-center justify-center bg-slate-50 px-4">
       <div className="w-full max-w-md">
-        {expired && (
-          <div className="mb-4 rounded-lg border border-amber-200 bg-amber-50 p-4 text-center text-sm text-amber-700">
-            Sesja wygasła. Zaloguj się ponownie.
-          </div>
-        )}
-        {registered && (
-          <div className="mb-4 rounded-lg border border-green-200 bg-green-50 p-4 text-center text-sm text-green-700">
-            Utworzono konto, można się zalogować.
-          </div>
-        )}
-        {loggedOut && (
-          <div className="mb-4 rounded-lg border border-blue-200 bg-blue-50 p-4 text-center text-sm text-blue-700">
-            Pomyślnie wylogowano.
-          </div>
-        )}
+        <Suspense fallback={null}>
+          <AuthFlashMessage />
+        </Suspense>
         <LoginForm />
         <p className="mt-8 text-center text-xs text-slate-400">
           Demo: <span className="font-medium">pacjent@test.pl</span> /{" "}
