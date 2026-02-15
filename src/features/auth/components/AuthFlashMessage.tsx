@@ -35,10 +35,23 @@ export const AuthFlashMessage = () => {
     return null;
   });
 
+  const [visible, setVisible] = useState(false);
+
   useEffect(() => {
     if (message) {
+      const timer = setTimeout(() => setVisible(true), 10);
+
       const newUrl = window.location.pathname;
       window.history.replaceState({}, "", newUrl);
+
+      const hideTimer = setTimeout(() => {
+        setVisible(false);
+      }, 3000);
+
+      return () => {
+        clearTimeout(timer);
+        clearTimeout(hideTimer);
+      };
     }
   }, [message]);
 
@@ -50,13 +63,25 @@ export const AuthFlashMessage = () => {
     info: "border-blue-200 bg-blue-50 text-blue-700",
   };
 
+  const progressStyles = {
+    error: "bg-amber-300/50",
+    success: "bg-green-300/50",
+    info: "bg-blue-300/50",
+  };
+
   return (
     <div
-      className={`mb-4 rounded-lg border p-4 text-center text-sm ${
+      className={`relative mb-4 overflow-hidden rounded-lg border p-4 text-center text-sm transition-all duration-500 ease-in-out ${
         styles[message.type]
-      }`}
+      } ${visible ? "translate-y-0 opacity-100" : "-translate-y-2 opacity-0"}`}
     >
-      {message.text}
+      <div className="relative z-10">{message.text}</div>
+      <div
+        className={`absolute bottom-0 left-0 h-1 transition-all duration-3000 ease-linear ${
+          progressStyles[message.type]
+        }`}
+        style={{ width: visible ? "0%" : "100%" }}
+      />
     </div>
   );
 };
