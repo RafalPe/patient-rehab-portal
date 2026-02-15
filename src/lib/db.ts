@@ -141,7 +141,16 @@ export const dbActions = {
     };
 
     db.users.push(newUser);
-    db.exercises[newUser.id] = [];
+    // Since there is no admin role to assign specific exercises to users,
+    // every newly created user gets this default exercise.
+    db.exercises[newUser.id] = [
+      {
+        id: "ex1",
+        deviceName: "Rotor kończyn górnych",
+        params: "Czas: 15 min, Obciążenie: 5kg",
+        status: "TODO",
+      },
+    ];
 
     return newUser;
   },
