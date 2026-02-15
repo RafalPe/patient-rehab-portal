@@ -31,7 +31,7 @@ export async function loginAction(
   }
 
   const cookieStore = await cookies();
-  cookieStore.set("session_user", user.email, {
+  cookieStore.set("session_user", user.id, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "strict",

@@ -3,9 +3,9 @@ import { dbActions } from "./db";
 
 export async function getCurrentUser() {
   const cookieStore = await cookies();
-  const email = cookieStore.get("session_user")?.value;
+  const userId = cookieStore.get("session_user")?.value;
 
-  if (!email) return null;
+  if (!userId) return null;
 
-  return dbActions.findUserByEmail(email);
+  return dbActions.findUserById(userId);
 }

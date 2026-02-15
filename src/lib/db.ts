@@ -80,6 +80,10 @@ export const dbActions = {
     return db.users.find((u) => u.email === email);
   },
 
+  findUserById: async (id: string): Promise<User | undefined> => {
+    return db.users.find((u) => u.id === id);
+  },
+
   updateUser: async (
     email: string,
     data: Partial<Omit<User, "email" | "id">>,
