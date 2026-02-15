@@ -27,7 +27,7 @@ beforeEach(() => {
   ];
 
   db.exercises = {
-    "pacjent@test.pl": [
+    "1": [
       {
         id: "ex1",
         deviceName: "Rotor kończyn górnych",
@@ -49,12 +49,12 @@ describe("updateExerciseStatusAction", () => {
     const result = await updateExerciseStatusAction("ex1", "IN_PROGRESS");
 
     expect(result.success).toBe(true);
-    expect(db.exercises["pacjent@test.pl"][0].status).toBe("IN_PROGRESS");
-    expect(db.exercises["pacjent@test.pl"][0].startedAt).toBeDefined();
+    expect(db.exercises["1"][0].status).toBe("IN_PROGRESS");
+    expect(db.exercises["1"][0].startedAt).toBeDefined();
   });
 
   it("updates status to DONE and sets completedAt", async () => {
-    db.exercises["pacjent@test.pl"][0].status = "IN_PROGRESS";
+    db.exercises["1"][0].status = "IN_PROGRESS";
     mockedGetCurrentUser.mockResolvedValue(db.users[0]);
 
     const resultPromise = updateExerciseStatusAction("ex1", "DONE");
@@ -62,12 +62,12 @@ describe("updateExerciseStatusAction", () => {
     const result = await resultPromise;
 
     expect(result.success).toBe(true);
-    expect(db.exercises["pacjent@test.pl"][0].status).toBe("DONE");
-    expect(db.exercises["pacjent@test.pl"][0].completedAt).toBeDefined();
+    expect(db.exercises["1"][0].status).toBe("DONE");
+    expect(db.exercises["1"][0].completedAt).toBeDefined();
   });
 
   it("rejects status change when exercise is already DONE", async () => {
-    db.exercises["pacjent@test.pl"][0].status = "DONE";
+    db.exercises["1"][0].status = "DONE";
     mockedGetCurrentUser.mockResolvedValue(db.users[0]);
 
     const result = await updateExerciseStatusAction("ex1", "IN_PROGRESS");

@@ -4,7 +4,7 @@ import { ExerciseList } from "@/features/exercises/components/ExerciseList";
 
 export default async function DashboardPage() {
   const user = await getCurrentUser();
-  const exercises = await dbActions.getExercisesForUser(user!.email);
+  const exercises = await dbActions.getExercisesForUser(user!.id);
 
   return (
     <>

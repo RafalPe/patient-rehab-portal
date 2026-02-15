@@ -1,4 +1,5 @@
 import { User, Exercise, ISODateString } from "@/types/models";
+import { v4 as uuidv4 } from "uuid";
 
 interface InMemoryDb {
   users: User[];
@@ -30,7 +31,7 @@ const initialData: InMemoryDb = {
     },
   ],
   exercises: {
-    "pacjent@test.pl": [
+    "1": [
       {
         id: "ex1",
         deviceName: "Rotor kończyn górnych",
@@ -44,7 +45,7 @@ const initialData: InMemoryDb = {
         status: "TODO",
       },
     ],
-    "anna.nowak@test.pl": [
+    "2": [
       {
         id: "ex3",
         deviceName: "Rower stacjonarny",
@@ -58,7 +59,7 @@ const initialData: InMemoryDb = {
         status: "TODO",
       },
     ],
-    "e2e@test.pl": [
+    "3": [
       {
         id: "ex_e2e",
         deviceName: "Testowa Bieżnia",
@@ -90,17 +91,17 @@ export const dbActions = {
     return true;
   },
 
-  getExercisesForUser: async (email: string): Promise<Exercise[]> => {
-    return db.exercises[email] || [];
+  getExercisesForUser: async (userId: string): Promise<Exercise[]> => {
+    return db.exercises[userId] || [];
   },
 
   updateExerciseStatus: async (
-    email: string,
+    userId: string,
     exerciseId: string,
     status: Exercise["status"],
     timestamps?: { startedAt?: ISODateString; completedAt?: ISODateString },
   ): Promise<boolean> => {
-    const userExs = db.exercises[email];
+    const userExs = db.exercises[userId];
     if (!userExs) return false;
 
     const exIndex = userExs.findIndex((e) => e.id === exerciseId);
@@ -122,5 +123,22 @@ export const dbActions = {
     };
 
     return true;
+  },
+
+  createUser: async (user: Omit<User, "id">): Promise<User> => {
+    const exists = db.users.some((u) => u.email === user.email);
+    if (exists) {
+      throw new Error("Użytkownik o podanym adresie email już istnieje.");
+    }
+
+    const newUser: User = {
+      ...user,
+      id: uuidv4(),
+    };
+
+    db.users.push(newUser);
+    db.exercises[newUser.id] = [];
+
+    return newUser;
   },
 };

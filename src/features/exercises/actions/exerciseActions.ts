@@ -19,7 +19,7 @@ export async function updateExerciseStatusAction(
     if (!user)
       return { success: false, error: "Sesja wygasła. Zaloguj się ponownie." };
 
-    const exercises = await dbActions.getExercisesForUser(user.email);
+    const exercises = await dbActions.getExercisesForUser(user.id);
     const currentExercise = exercises.find((e) => e.id === exerciseId);
 
     if (currentExercise?.status === "DONE") {
@@ -34,7 +34,7 @@ export async function updateExerciseStatusAction(
     }
 
     const success = await dbActions.updateExerciseStatus(
-      user.email,
+      user.id,
       exerciseId,
       status,
       {

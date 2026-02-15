@@ -21,7 +21,7 @@ beforeEach(() => {
   ];
 
   db.exercises = {
-    "pacjent@test.pl": [
+    "1": [
       {
         id: "ex1",
         deviceName: "Rotor kończyn górnych",
@@ -35,7 +35,7 @@ beforeEach(() => {
         status: "TODO",
       },
     ],
-    "anna.nowak@test.pl": [
+    "2": [
       {
         id: "ex3",
         deviceName: "Rower stacjonarny",
@@ -81,13 +81,13 @@ describe("dbActions.updateUser", () => {
 
 describe("dbActions.getExercisesForUser", () => {
   it("returns exercises for existing user", async () => {
-    const exercises = await dbActions.getExercisesForUser("pacjent@test.pl");
+    const exercises = await dbActions.getExercisesForUser("1");
     expect(exercises).toHaveLength(2);
     expect(exercises[0].deviceName).toBe("Rotor kończyn górnych");
   });
 
   it("returns empty array for non-existent user", async () => {
-    const exercises = await dbActions.getExercisesForUser("nie@istnieje.pl");
+    const exercises = await dbActions.getExercisesForUser("999");
     expect(exercises).toEqual([]);
   });
 });
@@ -95,51 +95,41 @@ describe("dbActions.getExercisesForUser", () => {
 describe("dbActions.updateExerciseStatus", () => {
   it("updates status from TODO to IN_PROGRESS", async () => {
     const result = await dbActions.updateExerciseStatus(
-      "pacjent@test.pl",
+      "1",
       "ex1",
       "IN_PROGRESS",
       { startedAt: "2026-02-14T12:00:00Z" as ISODateString },
     );
     expect(result).toBe(true);
 
-    const exercises = await dbActions.getExercisesForUser("pacjent@test.pl");
+    const exercises = await dbActions.getExercisesForUser("1");
     const ex = exercises.find((e) => e.id === "ex1");
     expect(ex?.status).toBe("IN_PROGRESS");
     expect(ex?.startedAt).toBe("2026-02-14T12:00:00Z");
   });
 
   it("updates status from IN_PROGRESS to DONE with timestamps", async () => {
-    await dbActions.updateExerciseStatus(
-      "pacjent@test.pl",
-      "ex1",
-      "IN_PROGRESS",
-      { startedAt: "2026-02-14T12:00:00Z" as ISODateString },
-    );
+    await dbActions.updateExerciseStatus("1", "ex1", "IN_PROGRESS", {
+      startedAt: "2026-02-14T12:00:00Z" as ISODateString,
+    });
 
-    const result = await dbActions.updateExerciseStatus(
-      "pacjent@test.pl",
-      "ex1",
-      "DONE",
-      { completedAt: "2026-02-14T12:15:00Z" as ISODateString },
-    );
+    const result = await dbActions.updateExerciseStatus("1", "ex1", "DONE", {
+      completedAt: "2026-02-14T12:15:00Z" as ISODateString,
+    });
     expect(result).toBe(true);
 
-    const exercises = await dbActions.getExercisesForUser("pacjent@test.pl");
+    const exercises = await dbActions.getExercisesForUser("1");
     const ex = exercises.find((e) => e.id === "ex1");
     expect(ex?.status).toBe("DONE");
     expect(ex?.completedAt).toBe("2026-02-14T12:15:00Z");
   });
 
   it("prevents changing status from DONE to other value", async () => {
-    await dbActions.updateExerciseStatus(
-      "pacjent@test.pl",
-      "ex1",
-      "IN_PROGRESS",
-    );
-    await dbActions.updateExerciseStatus("pacjent@test.pl", "ex1", "DONE");
+    await dbActions.updateExerciseStatus("1", "ex1", "IN_PROGRESS");
+    await dbActions.updateExerciseStatus("1", "ex1", "DONE");
 
     const result = await dbActions.updateExerciseStatus(
-      "pacjent@test.pl",
+      "1",
       "ex1",
       "IN_PROGRESS",
     );
@@ -148,7 +138,7 @@ describe("dbActions.updateExerciseStatus", () => {
 
   it("returns false for non-existent exercise", async () => {
     const result = await dbActions.updateExerciseStatus(
-      "pacjent@test.pl",
+      "1",
       "ex999",
       "IN_PROGRESS",
     );
@@ -157,7 +147,7 @@ describe("dbActions.updateExerciseStatus", () => {
 
   it("returns false for non-existent user", async () => {
     const result = await dbActions.updateExerciseStatus(
-      "nie@istnieje.pl",
+      "999",
       "ex1",
       "IN_PROGRESS",
     );

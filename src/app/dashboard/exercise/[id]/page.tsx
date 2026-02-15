@@ -12,7 +12,7 @@ export default async function ExercisePage({
   const { id } = await params;
   const user = await getCurrentUser();
 
-  const exercises = await dbActions.getExercisesForUser(user!.email);
+  const exercises = await dbActions.getExercisesForUser(user!.id);
   const exercise = exercises.find((e) => e.id === id);
 
   if (!exercise) {
