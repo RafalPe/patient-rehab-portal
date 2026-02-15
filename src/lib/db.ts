@@ -6,7 +6,7 @@ interface InMemoryDb {
   exercises: Record<string, Exercise[]>;
 }
 
-const initialData: InMemoryDb = {
+const initialData: InMemoryDb = Object.freeze({
   users: [
     {
       id: "1",
@@ -36,13 +36,13 @@ const initialData: InMemoryDb = {
         id: "ex1",
         deviceName: "Rotor kończyn górnych",
         params: "Czas: 15 min, Obciążenie: 5kg",
-        status: "TODO",
+        status: "TODO" as const,
       },
       {
         id: "ex2",
         deviceName: "Bieżnia rehabilitacyjna",
         params: "Czas: 10 min, Prędkość: 4km/h",
-        status: "TODO",
+        status: "TODO" as const,
       },
     ],
     "2": [
@@ -50,13 +50,13 @@ const initialData: InMemoryDb = {
         id: "ex3",
         deviceName: "Rower stacjonarny",
         params: "Czas: 20 min, Opór: 3",
-        status: "TODO",
+        status: "TODO" as const,
       },
       {
         id: "ex4",
         deviceName: "Steper",
         params: "Czas: 10 min, Poziom: 2",
-        status: "TODO",
+        status: "TODO" as const,
       },
     ],
     "3": [
@@ -64,18 +64,26 @@ const initialData: InMemoryDb = {
         id: "ex_e2e",
         deviceName: "Testowa Bieżnia",
         params: "Czas: 5 min, Prędkość: 2km/h",
-        status: "TODO",
+        status: "TODO" as const,
       },
     ],
   },
-};
+} as InMemoryDb);
 
 const globalForDb = global as unknown as { db: InMemoryDb };
-export const db = globalForDb.db || initialData;
+export const db = globalForDb.db || JSON.parse(JSON.stringify(initialData));
+
 if (process.env.NODE_ENV !== "production") globalForDb.db = db;
 
 // Async signatures are intentional — prepared for future DB/API replacement
 export const dbActions = {
+  // Test utility to reset DB state
+  resetDb: () => {
+    const fresh = JSON.parse(JSON.stringify(initialData));
+    db.users = fresh.users;
+    db.exercises = fresh.exercises;
+  },
+
   findUserByEmail: async (email: string): Promise<User | undefined> => {
     return db.users.find((u) => u.email === email);
   },

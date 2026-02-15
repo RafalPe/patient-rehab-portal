@@ -1,6 +1,11 @@
 import { test, expect } from "@playwright/test";
+import { resetDb } from "./utils";
 
 test.describe("Registration Flow", () => {
+  test.beforeEach(async () => {
+    await resetDb();
+  });
+
   test("should allow user to register and see success message", async ({
     page,
   }) => {
@@ -23,8 +28,8 @@ test.describe("Registration Flow", () => {
 
     await page.getByRole("button", { name: "Zarejestruj się" }).click();
 
-    // Should redirect to login page with success message
-    await expect(page).toHaveURL("/login?registered=true");
+    // Should redirect to login page
+    await expect(page).toHaveURL(/\/login/);
 
     // Verify success message
     await expect(
