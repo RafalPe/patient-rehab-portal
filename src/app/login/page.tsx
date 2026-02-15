@@ -3,9 +3,13 @@ import { LoginForm } from "@/features/auth/components/LoginForm";
 export default async function LoginPage({
   searchParams,
 }: {
-  searchParams: Promise<{ expired?: string; registered?: string }>;
+  searchParams: Promise<{
+    expired?: string;
+    registered?: string;
+    loggedOut?: string;
+  }>;
 }) {
-  const { expired, registered } = await searchParams;
+  const { expired, registered, loggedOut } = await searchParams;
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-slate-50 px-4">
@@ -18,6 +22,11 @@ export default async function LoginPage({
         {registered && (
           <div className="mb-4 rounded-lg border border-green-200 bg-green-50 p-4 text-center text-sm text-green-700">
             Utworzono konto, można się zalogować.
+          </div>
+        )}
+        {loggedOut && (
+          <div className="mb-4 rounded-lg border border-blue-200 bg-blue-50 p-4 text-center text-sm text-blue-700">
+            Pomyślnie wylogowano.
           </div>
         )}
         <LoginForm />
