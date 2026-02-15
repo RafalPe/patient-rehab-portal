@@ -10,7 +10,7 @@ A system for managing patient rehabilitation plans and simulating exercises. Thi
 
 ### 🚀 Technology Stack
 
-- **Core**: [Next.js 15 (App Router)](https://nextjs.org/) + React 19 (Server Actions)
+- **Core**: [Next.js 16 (App Router)](https://nextjs.org/) + React 19 (Server Actions)
 - **Language**: TypeScript (Strict Mode)
 - **Styling**: Tailwind CSS
 - **Validation**: Zod
@@ -29,6 +29,7 @@ The application meets 100% of the core requirements and all bonus features.
 | Exercise Simulation (Timer, API, SVG UI) |   ✅   |
 | User Profile (Persistent Editing)        |   ✅   |
 | **Full E2E Tests (Playwright) (Bonus)**  |   ✅   |
+| **Unit Tests (Vitest) (Bonus)**          |   ✅   |
 
 ### 🏗️ Architectural Decisions
 
@@ -73,7 +74,7 @@ System do zarządzania planem rehabilitacji pacjenta oraz symulacji treningów. 
 
 ### 🚀 Technologie
 
-- **Rdzeń**: [Next.js 15 (App Router)](https://nextjs.org/) + React 19 (Server Actions)
+- **Rdzeń**: [Next.js 16 (App Router)](https://nextjs.org/) + React 19 (Server Actions)
 - **Język**: TypeScript (Strict Mode)
 - **Style**: Tailwind CSS
 - **Testy**: Playwright (E2E) + Vitest (Unit/Integration)
@@ -91,6 +92,7 @@ Aplikacja spełnia 100% wymagań podstawowych oraz wszystkie bonusowe.
 | Symulacja Treningu (Timer, API, UI)        |   ✅   |
 | Edycja Profilu (Persistent)                |   ✅   |
 | **Pełne testy E2E (Playwright) (Bonus)**   |   ✅   |
+| **Testy Jednostkowe (Vitest) (Bonus)**     |   ✅   |
 
 ### 🏗️ Decyzje Architektoniczne
 
