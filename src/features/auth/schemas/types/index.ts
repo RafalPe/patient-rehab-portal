@@ -8,4 +8,9 @@ export type AuthActionState = {
     confirmPassword?: string[];
     form?: string;
   };
+  payload?: {
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+  };
 };

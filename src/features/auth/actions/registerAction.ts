@@ -13,14 +13,18 @@ export async function registerAction(
   // Simulate network delay
   await new Promise((resolve) => setTimeout(resolve, 1000));
 
-  const validated = registerSchema.safeParse(
-    Object.fromEntries(formData.entries()),
-  );
+  const rawData = Object.fromEntries(formData.entries());
+  const validated = registerSchema.safeParse(rawData);
 
   if (!validated.success) {
     return {
       success: false,
       errors: z.flattenError(validated.error).fieldErrors,
+      payload: {
+        firstName: rawData.firstName as string,
+        lastName: rawData.lastName as string,
+        email: rawData.email as string,
+      },
     };
   }
 
@@ -40,12 +44,22 @@ export async function registerAction(
         errors: {
           form: error.message,
         },
+        payload: {
+          firstName,
+          lastName,
+          email,
+        },
       };
     }
     return {
       success: false,
       errors: {
         form: "Wystąpił nieoczekiwany błąd podczas rejestracji.",
+      },
+      payload: {
+        firstName,
+        lastName,
+        email,
       },
     };
   }

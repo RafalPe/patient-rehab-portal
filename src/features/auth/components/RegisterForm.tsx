@@ -45,6 +45,7 @@ export const RegisterForm = () => {
               id="firstName"
               name="firstName"
               type="text"
+              defaultValue={state.payload?.firstName}
               required
               className="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2.5 text-slate-800 shadow-sm focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 focus:outline-none"
               placeholder="Jan"
@@ -66,6 +67,7 @@ export const RegisterForm = () => {
               id="lastName"
               name="lastName"
               type="text"
+              defaultValue={state.payload?.lastName}
               required
               className="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2.5 text-slate-800 shadow-sm focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 focus:outline-none"
               placeholder="Kowalski"
@@ -89,6 +91,7 @@ export const RegisterForm = () => {
             id="email"
             name="email"
             type="email"
+            defaultValue={state.payload?.email}
             required
             className="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2.5 text-slate-800 shadow-sm placeholder:text-slate-400 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 focus:outline-none"
             placeholder="twoj@email.pl"
