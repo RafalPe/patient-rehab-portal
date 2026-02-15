@@ -47,6 +47,7 @@ export const RegisterForm = () => {
               type="text"
               required
               className="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2.5 text-slate-800 shadow-sm focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 focus:outline-none"
+              placeholder="Jan"
             />
             {state.errors?.firstName && (
               <p className="mt-1 text-xs text-red-500">
@@ -67,6 +68,7 @@ export const RegisterForm = () => {
               type="text"
               required
               className="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2.5 text-slate-800 shadow-sm focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 focus:outline-none"
+              placeholder="Kowalski"
             />
             {state.errors?.lastName && (
               <p className="mt-1 text-xs text-red-500">
@@ -109,6 +111,7 @@ export const RegisterForm = () => {
             type="password"
             required
             className="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2.5 text-slate-800 shadow-sm focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 focus:outline-none"
+            placeholder="••••••••"
           />
           {state.errors?.password && (
             <p className="mt-1 text-xs text-red-500">
@@ -130,6 +133,7 @@ export const RegisterForm = () => {
             type="password"
             required
             className="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2.5 text-slate-800 shadow-sm focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 focus:outline-none"
+            placeholder="••••••••"
           />
           {state.errors?.confirmPassword && (
             <p className="mt-1 text-xs text-red-500">
