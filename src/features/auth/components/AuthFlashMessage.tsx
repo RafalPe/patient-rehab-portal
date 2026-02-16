@@ -21,33 +21,36 @@ export const AuthFlashMessage = () => {
   if (currentParamsStr !== prevParams) {
     setPrevParams(currentParamsStr);
 
-    const expired = searchParams.get("expired");
-    const registered = searchParams.get("registered");
-    const loggedOut = searchParams.get("loggedOut");
+    const messages = {
+      expired: {
+        type: "error" as ToastType,
+        text: "Sesja wygasła. Zaloguj się ponownie.",
+      },
+      registered: {
+        type: "success" as ToastType,
+        text: "Utworzono konto, można się zalogować.",
+      },
+      loggedOut: {
+        type: "info" as ToastType,
+        text: "Pomyślnie wylogowano.",
+      },
+    };
 
-    if (expired || registered || loggedOut) {
-      const type: ToastType = expired
-        ? "error"
-        : registered
-          ? "success"
-          : "info";
-      const text = expired
-        ? "Sesja wygasła. Zaloguj się ponownie."
-        : registered
-          ? "Utworzono konto, można się zalogować."
-          : "Pomyślnie wylogowano.";
-
-      setMessageData({ type, text });
+    if (searchParams.has("expired")) {
+      setMessageData(messages.expired);
+    } else if (searchParams.has("registered")) {
+      setMessageData(messages.registered);
+    } else if (searchParams.has("loggedOut")) {
+      setMessageData(messages.loggedOut);
     }
   }
 
   useEffect(() => {
-    const hasFlashParam =
-      searchParams.get("expired") ||
-      searchParams.get("registered") ||
-      searchParams.get("loggedOut");
-
-    if (hasFlashParam) {
+    if (
+      searchParams.has("expired") ||
+      searchParams.has("registered") ||
+      searchParams.has("loggedOut")
+    ) {
       router.replace(pathname);
     }
   }, [searchParams, router, pathname]);
