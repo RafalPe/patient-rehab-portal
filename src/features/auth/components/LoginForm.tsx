@@ -4,6 +4,7 @@ import { useActionState } from "react";
 import { loginAction } from "../actions/loginAction";
 import { AuthActionState } from "../schemas/types";
 import Link from "next/link";
+import { FormInput } from "@/features/ui/FormInput";
 
 const initialState: AuthActionState = {
   success: false,
@@ -33,47 +34,25 @@ export const LoginForm = () => {
           </div>
         )}
 
-        <div>
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium text-slate-700"
-          >
-            Email
-          </label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            required
-            className="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2.5 text-slate-800 shadow-sm placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none"
-            placeholder="pacjent@test.pl"
-          />
-          {state.errors?.email && (
-            <p className="mt-1 text-xs text-red-500">{state.errors.email[0]}</p>
-          )}
-        </div>
+        <FormInput
+          label="Email"
+          name="email"
+          type="email"
+          required
+          placeholder="pacjent@test.pl"
+          error={state.errors?.email}
+          variant="auth"
+        />
 
-        <div>
-          <label
-            htmlFor="password"
-            className="block text-sm font-medium text-slate-700"
-          >
-            Hasło
-          </label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            required
-            className="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2.5 text-slate-800 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none"
-            placeholder="••••••••"
-          />
-          {state.errors?.password && (
-            <p className="mt-1 text-xs text-red-500">
-              {state.errors.password[0]}
-            </p>
-          )}
-        </div>
+        <FormInput
+          label="Hasło"
+          name="password"
+          type="password"
+          required
+          placeholder="••••••••"
+          error={state.errors?.password}
+          variant="auth"
+        />
 
         <button
           type="submit"

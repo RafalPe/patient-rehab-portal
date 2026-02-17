@@ -8,6 +8,7 @@ import {
 import { User } from "@/types/models";
 import { Toast } from "@/features/ui/Toast";
 import { useToastState } from "@/features/ui/hooks/useToastState";
+import { FormInput } from "@/features/ui/FormInput";
 
 const initialState: ProfileActionState = {
   success: false,
@@ -63,39 +64,21 @@ export const ProfileForm = ({ user }: { user: User }) => {
       )}
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-        <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700">
-            Imię
-          </label>
-          <input
-            name="firstName"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            className="w-full rounded-md border border-slate-300 px-3 py-2 text-slate-800 shadow-sm placeholder:text-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
-          />
-          {state.errors?.firstName && (
-            <p className="mt-1 text-xs text-red-500">
-              {state.errors.firstName[0]}
-            </p>
-          )}
-        </div>
+        <FormInput
+          label="Imię"
+          name="firstName"
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
+          error={state.errors?.firstName}
+        />
 
-        <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700">
-            Nazwisko
-          </label>
-          <input
-            name="lastName"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            className="w-full rounded-md border border-slate-300 px-3 py-2 text-slate-800 shadow-sm placeholder:text-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
-          />
-          {state.errors?.lastName && (
-            <p className="mt-1 text-xs text-red-500">
-              {state.errors.lastName[0]}
-            </p>
-          )}
-        </div>
+        <FormInput
+          label="Nazwisko"
+          name="lastName"
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
+          error={state.errors?.lastName}
+        />
       </div>
 
       <div>
@@ -112,62 +95,35 @@ export const ProfileForm = ({ user }: { user: User }) => {
 
       <hr className="border-slate-100" />
 
-      <div>
-        <label className="mb-1 block text-sm font-medium text-slate-700">
-          Aktualne hasło
-        </label>
-        <input
-          name="currentPassword"
-          type="password"
-          value={currentPassword}
-          onChange={(e) => setCurrentPassword(e.target.value)}
-          placeholder="Wymagane przy zmianie hasła"
-          className="w-full rounded-md border border-slate-300 px-3 py-2 text-slate-800 shadow-sm placeholder:text-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
-        />
-        {state.errors?.currentPassword && (
-          <p className="mt-1 text-xs text-red-500">
-            {state.errors.currentPassword[0]}
-          </p>
-        )}
-      </div>
+      <FormInput
+        label="Aktualne hasło"
+        name="currentPassword"
+        type="password"
+        value={currentPassword}
+        onChange={(e) => setCurrentPassword(e.target.value)}
+        placeholder="Wymagane przy zmianie hasła"
+        error={state.errors?.currentPassword}
+      />
 
-      <div>
-        <label className="mb-1 block text-sm font-medium text-slate-700">
-          Nowe hasło
-        </label>
-        <input
-          name="password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Pozostaw puste, jeśli nie zmieniasz"
-          className="w-full rounded-md border border-slate-300 px-3 py-2 text-slate-800 shadow-sm placeholder:text-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
-        />
-        {state.errors?.password && (
-          <p className="mt-1 text-xs text-red-500">
-            {state.errors.password[0]}
-          </p>
-        )}
-      </div>
+      <FormInput
+        label="Nowe hasło"
+        name="password"
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        placeholder="Pozostaw puste, jeśli nie zmieniasz"
+        error={state.errors?.password}
+      />
 
-      <div>
-        <label className="mb-1 block text-sm font-medium text-slate-700">
-          Potwierdź nowe hasło
-        </label>
-        <input
-          name="confirmPassword"
-          type="password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          placeholder="Powtórz nowe hasło"
-          className="w-full rounded-md border border-slate-300 px-3 py-2 text-slate-800 shadow-sm placeholder:text-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
-        />
-        {state.errors?.confirmPassword && (
-          <p className="mt-1 text-xs text-red-500">
-            {state.errors.confirmPassword[0]}
-          </p>
-        )}
-      </div>
+      <FormInput
+        label="Potwierdź nowe hasło"
+        name="confirmPassword"
+        type="password"
+        value={confirmPassword}
+        onChange={(e) => setConfirmPassword(e.target.value)}
+        placeholder="Powtórz nowe hasło"
+        error={state.errors?.confirmPassword}
+      />
 
       <div className="flex justify-end">
         <button
