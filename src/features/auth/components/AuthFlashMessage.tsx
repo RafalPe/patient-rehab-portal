@@ -3,65 +3,49 @@
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Toast, ToastType } from "@/features/ui/Toast";
+import { useToastState } from "@/features/ui/hooks/useToastState";
 
 export const AuthFlashMessage = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
 
-  const [messageData, setMessageData] = useState<{
-    type: ToastType;
-    text: string;
-  } | null>(null);
-
-  const [prevParams, setPrevParams] = useState("");
-
-  const currentParamsStr = searchParams.toString();
-
-  if (currentParamsStr !== prevParams) {
-    setPrevParams(currentParamsStr);
-
-    const messages = {
-      expired: {
-        type: "error" as ToastType,
-        text: "Sesja wygasła. Zaloguj się ponownie.",
-      },
-      registered: {
-        type: "success" as ToastType,
-        text: "Utworzono konto, można się zalogować.",
-      },
-      loggedOut: {
-        type: "info" as ToastType,
-        text: "Pomyślnie wylogowano.",
-      },
-    };
-
-    if (searchParams.has("expired")) {
-      setMessageData(messages.expired);
-    } else if (searchParams.has("registered")) {
-      setMessageData(messages.registered);
-    } else if (searchParams.has("loggedOut")) {
-      setMessageData(messages.loggedOut);
-    }
-  }
+  const { isVisible, message, showToast, dismissToast, toastId } =
+    useToastState();
+  const [type, setType] = useState<ToastType>("info");
 
   useEffect(() => {
-    if (
-      searchParams.has("expired") ||
-      searchParams.has("registered") ||
-      searchParams.has("loggedOut")
-    ) {
-      router.replace(pathname);
-    }
-  }, [searchParams, router, pathname]);
+    let checkType: ToastType | null = null;
+    let checkMessage: string | null = null;
 
-  if (!messageData) return null;
+    if (searchParams.has("expired")) {
+      checkType = "error";
+      checkMessage = "Sesja wygasła. Zaloguj się ponownie.";
+    } else if (searchParams.has("registered")) {
+      checkType = "success";
+      checkMessage = "Utworzono konto, można się zalogować.";
+    } else if (searchParams.has("loggedOut")) {
+      checkType = "info";
+      checkMessage = "Pomyślnie wylogowano.";
+    }
+
+    if (checkType && checkMessage) {
+      setTimeout(() => {
+        setType(checkType!);
+        showToast(checkMessage!);
+        router.replace(pathname);
+      }, 0);
+    }
+  }, [searchParams, router, pathname, showToast]);
+
+  if (!isVisible || !message) return null;
 
   return (
     <Toast
-      message={messageData.text}
-      type={messageData.type}
-      onClose={() => setMessageData(null)}
+      key={toastId}
+      message={message}
+      type={type}
+      onClose={dismissToast}
       position="fixed"
     />
   );

@@ -22,11 +22,11 @@ export const useToastState = (
     }
   }
 
-  const showToast = (newMessage: string) => {
+  const showToast = useCallback((newMessage: string) => {
     setMessage(newMessage);
     setIsDismissed(false);
     setToastId((prev) => prev + 1);
-  };
+  }, []);
 
   const dismissToast = useCallback(() => {
     setIsDismissed(true);
