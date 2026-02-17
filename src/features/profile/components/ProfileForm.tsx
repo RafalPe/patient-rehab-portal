@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import {
   updateProfileAction,
   ProfileActionState,
@@ -18,6 +18,29 @@ export const ProfileForm = ({ user }: { user: User }) => {
     updateProfileAction,
     initialState,
   );
+
+  const [firstName, setFirstName] = useState(user.firstName);
+  const [lastName, setLastName] = useState(user.lastName);
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const hasProfileChanges =
+    firstName.trim() !== user.firstName.trim() ||
+    lastName.trim() !== user.lastName.trim();
+  const hasPasswordChange = password !== "" || confirmPassword !== "";
+  const hasChanges = hasProfileChanges || hasPasswordChange;
+
+  useEffect(() => {
+    if (state.success) {
+      const id = setTimeout(() => {
+        setCurrentPassword("");
+        setPassword("");
+        setConfirmPassword("");
+      }, 0);
+      return () => clearTimeout(id);
+    }
+  }, [state.success]);
 
   const { isVisible, message, dismissToast, toastId } = useToastState(
     state.message,
@@ -46,7 +69,8 @@ export const ProfileForm = ({ user }: { user: User }) => {
           </label>
           <input
             name="firstName"
-            defaultValue={user.firstName}
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
             className="w-full rounded-md border border-slate-300 px-3 py-2 text-slate-800 shadow-sm placeholder:text-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
           />
           {state.errors?.firstName && (
@@ -62,7 +86,8 @@ export const ProfileForm = ({ user }: { user: User }) => {
           </label>
           <input
             name="lastName"
-            defaultValue={user.lastName}
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
             className="w-full rounded-md border border-slate-300 px-3 py-2 text-slate-800 shadow-sm placeholder:text-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
           />
           {state.errors?.lastName && (
@@ -94,6 +119,8 @@ export const ProfileForm = ({ user }: { user: User }) => {
         <input
           name="currentPassword"
           type="password"
+          value={currentPassword}
+          onChange={(e) => setCurrentPassword(e.target.value)}
           placeholder="Wymagane przy zmianie hasła"
           className="w-full rounded-md border border-slate-300 px-3 py-2 text-slate-800 shadow-sm placeholder:text-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
         />
@@ -111,6 +138,8 @@ export const ProfileForm = ({ user }: { user: User }) => {
         <input
           name="password"
           type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           placeholder="Pozostaw puste, jeśli nie zmieniasz"
           className="w-full rounded-md border border-slate-300 px-3 py-2 text-slate-800 shadow-sm placeholder:text-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
         />
@@ -128,6 +157,8 @@ export const ProfileForm = ({ user }: { user: User }) => {
         <input
           name="confirmPassword"
           type="password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
           placeholder="Powtórz nowe hasło"
           className="w-full rounded-md border border-slate-300 px-3 py-2 text-slate-800 shadow-sm placeholder:text-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
         />
@@ -141,8 +172,8 @@ export const ProfileForm = ({ user }: { user: User }) => {
       <div className="flex justify-end">
         <button
           type="submit"
-          disabled={isPending}
-          className="cursor-pointer rounded-lg bg-blue-600 px-6 py-2 font-medium text-white transition-colors hover:bg-blue-700 disabled:opacity-50"
+          disabled={!hasChanges || isPending}
+          className="cursor-pointer rounded-lg bg-blue-600 px-6 py-2 font-medium text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
         >
           {isPending ? "Zapisywanie..." : "Zapisz zmiany"}
         </button>
