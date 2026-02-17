@@ -6,6 +6,8 @@ import {
   ProfileActionState,
 } from "../actions/profileActions";
 import { User } from "@/types/models";
+import { Toast } from "@/features/ui/Toast";
+import { useToastState } from "@/features/ui/hooks/useToastState";
 
 const initialState: ProfileActionState = {
   success: false,
@@ -17,21 +19,24 @@ export const ProfileForm = ({ user }: { user: User }) => {
     initialState,
   );
 
+  const { isVisible, message, dismissToast, toastId } = useToastState(
+    state.message,
+    state,
+  );
+
   return (
     <form
       action={formAction}
-      className="space-y-6 rounded-xl border border-slate-200 bg-white p-8 shadow-sm"
+      className="relative space-y-6 rounded-xl border border-slate-200 bg-white p-8 shadow-sm"
     >
-      {state.success && (
-        <div className="rounded-lg border border-green-200 bg-green-50 p-4 text-green-700">
-          ✅ {state.message}
-        </div>
-      )}
-
-      {state.message && !state.success && (
-        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-red-700">
-          ⚠️ {state.message}
-        </div>
+      {isVisible && message && (
+        <Toast
+          key={toastId}
+          message={message}
+          type={state.success ? "success" : "error"}
+          position="fixed"
+          onClose={dismissToast}
+        />
       )}
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">

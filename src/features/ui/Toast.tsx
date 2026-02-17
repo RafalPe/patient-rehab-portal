@@ -49,7 +49,7 @@ export const Toast = ({
 
   const positionStyles =
     position === "fixed"
-      ? "absolute -top-20 left-0 right-0 z-50 shadow-lg mx-auto w-full"
+      ? "absolute -top-10 left-0 right-0 z-50 shadow-lg mx-auto w-full"
       : "relative mb-4";
 
   return (

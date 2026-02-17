@@ -1,12 +1,12 @@
 "use client";
 
-import { useState } from "react";
 import { Exercise } from "@/types/models";
 import {
   useExerciseSession,
   SIMULATION_DURATION_SECONDS,
 } from "@/features/simulation/hooks/useExerciseSession";
 import { Toast } from "@/features/ui/Toast";
+import { useToastState } from "@/features/ui/hooks/useToastState";
 
 const RADIUS = 80;
 const STROKE_WIDTH = 8;
@@ -17,25 +17,19 @@ export const ExerciseSession = ({ exercise }: { exercise: Exercise }) => {
   const { timeLeft, isActive, isFinishing, error, handleStart } =
     useExerciseSession(exercise.id);
 
-  const [prevError, setPrevError] = useState<string | null>(null);
-  const [isDismissed, setIsDismissed] = useState(false);
-
-  if (error !== prevError) {
-    setPrevError(error);
-    setIsDismissed(false);
-  }
+  const { isVisible, dismissToast, toastId } = useToastState(error);
 
   const ringDashOffset = isActive || timeLeft === 0 ? CIRCUMFERENCE : 0;
 
-  const shouldShowToast = error && !isDismissed;
-
   return (
-    <div className="mx-auto max-w-md rounded-2xl bg-white p-8 text-center shadow-xl">
-      {shouldShowToast && (
+    <div className="relative mx-auto max-w-md rounded-2xl bg-white p-8 text-center shadow-xl">
+      {isVisible && error && (
         <Toast
+          key={toastId}
           message={error}
+          position="fixed"
           type="error"
-          onClose={() => setIsDismissed(true)}
+          onClose={dismissToast}
         />
       )}
 
@@ -96,9 +90,9 @@ export const ExerciseSession = ({ exercise }: { exercise: Exercise }) => {
         <button
           aria-label="Rozpocznij sesję"
           onClick={handleStart}
-          disabled={!!shouldShowToast}
+          disabled={isVisible}
           className={`w-full rounded-xl py-4 font-bold text-white shadow-md transition-all ${
-            shouldShowToast
+            isVisible
               ? "cursor-not-allowed bg-slate-300 shadow-none"
               : "cursor-pointer bg-linear-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 hover:shadow-lg active:scale-95"
           }`}
