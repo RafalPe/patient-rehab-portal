@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export const useExerciseTimer = (
   initialSeconds: number,
@@ -16,8 +16,8 @@ export const useExerciseTimer = (
     onCompleteRef.current = onComplete;
   }, [onComplete]);
 
-  const start = useCallback(() => setIsActive(true), []);
-  const pause = useCallback(() => setIsActive(false), []);
+  const start = () => setIsActive(true);
+  const pause = () => setIsActive(false);
 
   useEffect(() => {
     if (!isActive || timeLeft <= 0) return;
